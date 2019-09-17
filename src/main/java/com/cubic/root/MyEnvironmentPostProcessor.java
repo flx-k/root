@@ -9,11 +9,24 @@ import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Component;
 import java.io.File;
-import java.util.Properties;
+import java.util.*;
 
 @Component
 public class MyEnvironmentPostProcessor implements EnvironmentPostProcessor {
-    private static final String LOCATIONS [] = {"D:\\11\\dd\\application.yml"};
+    private static String[] LOCATIONS ;
+    static {
+        String dir=System.getenv("ROOT_CONFIG_PATH");
+        System.out.println(dir);
+        String[] s=dir.split(";");
+        LOCATIONS=s;
+    }
+
+    public static void main(String[] args) {
+        Map<String, String> map=System.getenv();
+        for(String key:map.keySet()){
+            System.out.println(key+"    ::    "+map.get(key));
+        }
+    }
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
         for(String fileLocation :  LOCATIONS){
