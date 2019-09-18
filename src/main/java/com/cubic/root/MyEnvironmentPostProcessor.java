@@ -29,15 +29,15 @@ public class MyEnvironmentPostProcessor implements EnvironmentPostProcessor {
     }
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
+        MutablePropertySources propertySources = environment.getPropertySources();
+        YamlPropertiesFactoryBean bean=new YamlPropertiesFactoryBean();
+        Properties properties;
         for(String fileLocation :  LOCATIONS){
             File file = new File(fileLocation);
             if (file.exists()) {
-                MutablePropertySources propertySources = environment.getPropertySources();
-                YamlPropertiesFactoryBean bean=new YamlPropertiesFactoryBean();
                 bean.setResources(new FileSystemResource(file));
-                Properties properties = bean.getObject();
+                properties = bean.getObject();
                 propertySources.addFirst(new PropertiesPropertySource("Config", properties));
-                return ;
             }
         }
     }

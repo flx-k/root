@@ -34,7 +34,9 @@ public class ClassUtil {
     public static Map<String, String> registerBean(File path, ApplicationContext applicationContext) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, InstantiationException {
         logger.info("jar包："+path.getAbsolutePath()+"--> 开始加载");
         URL url=path.toURI().toURL();
-        URLClassLoader classLoader= (URLClassLoader) ClassLoader.getSystemClassLoader();
+        logger.info("jar包：URL"+url.toString());
+        URLClassLoader classLoader= (URLClassLoader) applicationContext.getClassLoader();
+//        URLClassLoader classLoader= (URLClassLoader) ClassLoader.getSystemClassLoader();
         Method method=URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
         method.setAccessible(true);
         method.invoke(classLoader,url);
@@ -50,6 +52,7 @@ public class ClassUtil {
             if(!jarEntry.isDirectory()&&name.endsWith(".class")){
                 classname=name.substring(0,name.length()-6).replace("/",".");
                 names=classname.split("\\.");
+                logger.info("calssname::"+classname);
                 map.put("SERVER-PLUG-"+names[names.length-1].toUpperCase(),classname);
                 Class cla= null;
                 try {
