@@ -41,6 +41,7 @@ public class PlugApi {
             Method method=cla.getDeclaredMethod(methodName,Object.class);
             return method.invoke(object,obj);
         }catch (Exception e){
+            logger.error(e.getMessage(),e);
             throw new NoPlugException(plugName);
         }
 

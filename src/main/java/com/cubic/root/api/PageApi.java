@@ -15,4 +15,9 @@ public class PageApi {
     {
         return "login_page";
     }
+    @GetMapping(value={"/upload_plug"})
+    public String uploadplug()
+    {
+        return "upload_plug";
+    }
 }

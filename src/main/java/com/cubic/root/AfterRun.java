@@ -21,7 +21,11 @@ public final class AfterRun implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         logger.info("加载插件.........");
-        JARChange.run("D:/11/plug/",applicationContext);
+        String dir=System.getenv("ROOT_PLUG_PATH");
+        if(null==dir)
+            logger.warn("插件地址为空");
+        if(null!=dir&&!dir.isEmpty())
+            JARChange.run(dir,applicationContext);
         logger.info("插件加载完成.........");
     }
 }
