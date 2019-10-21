@@ -10,10 +10,10 @@ public class PageApi {
     {
         return "index";
     }
-    @GetMapping(value={"/login.html","login_page.html","login_page.jsp"})
+    @GetMapping(value={"/login"})
     public String loginPage()
     {
-        return "login_page";
+        return "login";
     }
     @GetMapping(value={"/upload_plug"})
     public String uploadplug()
