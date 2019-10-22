@@ -54,12 +54,16 @@ public class BaseSQL {
     public String update(final SimpleParam param) {
         SQL sql = new SQL();
         sql.UPDATE(StringUtil.upper2Lower(param.getClassName()));
-        for (String key : param.getSet().keySet()) {
-            sql.SET(key + "='" + param.getSet().get(key) + "'");
-        }
-        for (String key : param.getWhere().keySet()) {
-            sql.WHERE(key + "='" + param.getWhere().get(key) + "'");
-        }
+        if (null != param.getSet())
+
+            for (String key : param.getSet().keySet()) {
+                sql.SET(key + "='" + param.getSet().get(key) + "'");
+            }
+        if (null != param.getWhere())
+
+            for (String key : param.getWhere().keySet()) {
+                sql.WHERE(key + "='" + param.getWhere().get(key) + "'");
+            }
         System.out.println(sql.toString());
         return sql.toString();
     }
@@ -70,25 +74,30 @@ public class BaseSQL {
             sql.SELECT(StringUtil.upper2Lower(str));
         }
         sql.FROM(StringUtil.upper2Lower(param.getClassName()));
-        for (String key : param.getWhere().keySet()) {
-            if (key.equals("eq")) {
-                sql.WHERE(key + "='" + param.getWhere().get(key) + "'");
+        if (null != param.getWhere())
+            for (String key : param.getWhere().keySet()) {
+                String[] p = (String[]) param.getWhere().get(key);
+                if (p[0].equals("eq")) {
+                    sql.WHERE(p[1] + "='" + p[2] + "'");
+                }
             }
-        }
         System.out.println(sql.toString());
         return sql.toString();
     }
+
     public String count(final SimpleParam param) {
         SQL sql = new SQL();
 
         sql.SELECT("count(*)");
 
         sql.FROM(StringUtil.upper2Lower(param.getClassName()));
-        for (String key : param.getWhere().keySet()) {
-            if (key.equals("eq")) {
-                sql.WHERE(key + "='" + param.getWhere().get(key) + "'");
+        if (null != param.getWhere())
+            for (String key : param.getWhere().keySet()) {
+                String[] p = (String[]) param.getWhere().get(key);
+                if (p[0].equals("eq")) {
+                    sql.WHERE(p[1] + "='" + p[2] + "'");
+                }
             }
-        }
         System.out.println(sql.toString());
         return sql.toString();
     }
